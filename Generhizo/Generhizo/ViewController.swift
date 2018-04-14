@@ -30,6 +30,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var zLabel: UILabel!
     @IBOutlet weak var shrinkSlider: UISlider!
     
+    // hide statusbar
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
     
     // motion
     let motionManager = CMMotionManager()
@@ -44,6 +48,7 @@ class ViewController: UIViewController {
             print(startZRotation)
         }
     }
+    
     @IBAction func tapRecognized(_ sender: UITapGestureRecognizer) {
         // toggle the controlsview on a double tap
         controlsView.isHidden = !controlsView.isHidden
@@ -59,8 +64,10 @@ class ViewController: UIViewController {
         stepperValue.minimumValue = 1
         stepperValue.maximumValue = 5
         stepperValue.value = Double(baseDepth)
+        
+        controlsView?.isHidden = true
     }
-    
+        
     private func startDeviceMotion() {
         motionManager.deviceMotionUpdateInterval = 1.0 / 60
         motionManager.showsDeviceMovementDisplay = true
@@ -94,10 +101,6 @@ class ViewController: UIViewController {
         RunLoop.current.add(self.timer!, forMode: .defaultRunLoopMode)
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        addSublayers()
-    }
     
     private func addSublayers() {
 
@@ -132,7 +135,7 @@ class ViewController: UIViewController {
                 
                 let zValue = fabs(CGFloat(zRotation))
                 self.zLabel.text = "\(Double(round(1000*zValue)/1000))"
-                length = (dir % 2 == 0 ? 100 * CGFloat(yRotation) : -100 * zValue) * max((CGFloat(depth) /  (CGFloat(baseDepth))), CGFloat(shrinkSlider!.value))
+                length = (dir % 2 == 0 ? 100 * CGFloat(yRotation) : -50 * zValue) * max((CGFloat(depth) /  (CGFloat(baseDepth))), CGFloat(shrinkSlider!.value))
             } else {
                 length = (dir % 2 == 0 ? 150 : 100) * (CGFloat(depth) / CGFloat(baseDepth))
             }

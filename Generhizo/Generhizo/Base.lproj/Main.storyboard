@@ -34,14 +34,14 @@
                                             <action selector="motionSwitchUpdated:" destination="BYZ-38-t0r" eventType="valueChanged" id="OWI-tE-dpj"/>
                                         </connections>
                                     </switch>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="6" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZOg-Wa-riD">
-                                        <rect key="frame" x="65" y="13" width="11" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="6" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZOg-Wa-riD">
+                                        <rect key="frame" x="146" y="14" width="11" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="i2g-qz-o6m" userLabel="Depth Stepper">
-                                        <rect key="frame" x="84" y="9" width="94" height="29"/>
+                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="i2g-qz-o6m" userLabel="Depth Stepper">
+                                        <rect key="frame" x="165" y="10" width="94" height="29"/>
                                         <connections>
                                             <action selector="depthStepperUpdated:" destination="BYZ-38-t0r" eventType="valueChanged" id="j6z-1I-6Bn"/>
                                         </connections>
@@ -77,13 +77,20 @@
                                         </connections>
                                     </switch>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="5Bn-gk-lOo">
-                                        <rect key="frame" x="184" y="9" width="293" height="31"/>
+                                        <rect key="frame" x="241" y="9" width="236" height="31"/>
                                     </slider>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="scc-DD-BTi" userLabel="Dark mode">
+                                        <rect key="frame" x="65" y="8" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="darkModeSwitchUpdated:" destination="BYZ-38-t0r" eventType="valueChanged" id="WyY-Um-aje"/>
+                                        </connections>
+                                    </switch>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="scc-DD-BTi" firstAttribute="leading" secondItem="2C9-M4-HpP" secondAttribute="trailing" constant="8" id="6uG-n7-7IU"/>
+                                    <constraint firstAttribute="bottom" secondItem="scc-DD-BTi" secondAttribute="bottom" constant="8" id="8Hv-Cw-bnq"/>
                                     <constraint firstItem="i2g-qz-o6m" firstAttribute="leading" secondItem="ZOg-Wa-riD" secondAttribute="trailing" constant="8" id="8iW-ci-g8q"/>
-                                    <constraint firstItem="ZOg-Wa-riD" firstAttribute="leading" secondItem="2C9-M4-HpP" secondAttribute="trailing" constant="8" id="D1N-eP-50G"/>
                                     <constraint firstItem="5AV-2P-b5z" firstAttribute="leading" secondItem="OtX-RZ-rsF" secondAttribute="trailing" constant="8" id="GDP-m8-kyH"/>
                                     <constraint firstAttribute="bottom" secondItem="2C9-M4-HpP" secondAttribute="bottom" constant="8" id="HGk-Ks-jXV"/>
                                     <constraint firstAttribute="height" constant="47" id="Ilt-6q-bNH"/>
@@ -98,6 +105,7 @@
                                     <constraint firstAttribute="bottom" secondItem="OtX-RZ-rsF" secondAttribute="bottom" constant="8" id="n66-jT-hkJ"/>
                                     <constraint firstAttribute="bottom" secondItem="5AV-2P-b5z" secondAttribute="bottom" constant="8" id="o3C-GF-be5"/>
                                     <constraint firstAttribute="bottom" secondItem="S59-oH-ahS" secondAttribute="bottom" constant="8" id="o9r-l7-QVl"/>
+                                    <constraint firstItem="ZOg-Wa-riD" firstAttribute="leading" secondItem="scc-DD-BTi" secondAttribute="trailing" constant="8" id="pfz-e1-Kv0"/>
                                     <constraint firstItem="2C9-M4-HpP" firstAttribute="leading" secondItem="qFH-H9-xwM" secondAttribute="leading" constant="8" id="r0S-9j-6Ks"/>
                                     <constraint firstItem="OtX-RZ-rsF" firstAttribute="leading" secondItem="HMo-4X-XyQ" secondAttribute="trailing" constant="8" id="rAX-cH-y0d"/>
                                     <constraint firstItem="fec-9v-GKD" firstAttribute="leading" secondItem="S59-oH-ahS" secondAttribute="trailing" constant="8" id="tRC-zb-veX"/>

@@ -23,6 +23,7 @@ class ViewController: UIViewController {
     var centerLeftMode = true
     var endLeftMode = true
     var endRightMode = true
+    var darkMode = false
     
     @IBOutlet weak var controlsView: UIView!
     @IBOutlet weak var depthLabel: UILabel!
@@ -56,7 +57,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addSublayers()
+        render()
         startDeviceMotion()
         
         depthLabel.text = "\(baseDepth)"
@@ -66,8 +67,10 @@ class ViewController: UIViewController {
         stepperValue.value = Double(baseDepth)
         
         controlsView?.isHidden = true
-    }
         
+       
+    }
+    
     private func startDeviceMotion() {
         motionManager.deviceMotionUpdateInterval = 1.0 / 60
         motionManager.showsDeviceMovementDisplay = true
@@ -92,7 +95,7 @@ class ViewController: UIViewController {
                     self.yRotation = y
                     self.zRotation = z
               
-                    self.addSublayers()
+                    self.render()
                 }
                 
             }
@@ -102,8 +105,10 @@ class ViewController: UIViewController {
     }
     
     
-    private func addSublayers() {
+    private func render() {
 
+        view.layer.backgroundColor = darkMode ? UIColor.black.cgColor : UIColor.white.cgColor
+        
         // Init baselayer
         if let baseSublayer = baseLayer {
             baseSublayer.removeFromSuperlayer()
@@ -217,7 +222,7 @@ class ViewController: UIViewController {
     
     private func sublayerConstructor(x: CGFloat, y: CGFloat) -> CALayer {
         let sublayer = CALayer()
-        sublayer.backgroundColor = UIColor.black.cgColor
+        sublayer.backgroundColor = darkMode ? UIColor.white.cgColor : UIColor.black.cgColor
         sublayer.frame = CGRect(x: x, y: y, width: 10, height: 10)
         return sublayer
     }
@@ -229,7 +234,7 @@ class ViewController: UIViewController {
         linePath.addLine(to: end)
         lineLayer.path = linePath.cgPath
         lineLayer.fillColor = nil
-        lineLayer.strokeColor = UIColor.black.cgColor
+        lineLayer.strokeColor = darkMode ? UIColor.white.cgColor : UIColor.black.cgColor
         lineLayer.lineWidth = width
         
         let center = CGPoint(x: (start.x + end.x) / 2, y: (start.y + end.y) / 2)
@@ -246,31 +251,35 @@ class ViewController: UIViewController {
             zRotation = 1.0
             startZRotation = nil
         }
-        addSublayers()
+        render()
     }
     @IBAction func naturalSwitchUpdated(_ sender: UISwitch) {
         naturalMode = sender.isOn
-        addSublayers()
+        render()
+    }
+    @IBAction func darkModeSwitchUpdated(_ sender: UISwitch) {
+        darkMode = sender.isOn
+        render()
     }
     
     @IBAction func centerLeftSwitchUpdated(_ sender: UISwitch) {
         centerLeftMode = sender.isOn
-        addSublayers()
+        render()
     }
     
     @IBAction func endLeftSwitchUpdated(_ sender: UISwitch) {
         endLeftMode = sender.isOn
-        addSublayers()
+        render()
     }
     
     @IBAction func endRightSwitchUpdated(_ sender: UISwitch) {
         endRightMode = sender.isOn
-        addSublayers()
+        render()
     }
     
     @IBAction func twigCountSwitchUpdated(_ sender: UISwitch) {
         eightTwigMode = sender.isOn
-        addSublayers()
+        render()
     }
     
     @IBAction func depthStepperUpdated(_ sender: UIStepper) {

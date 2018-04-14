@@ -13,7 +13,7 @@ class ViewController: UIViewController {
 
     var baseLayer: CALayer?
     
-    var baseDepth = 3
+    var baseDepth = 5
     
     // mode
     var growMode = false
@@ -109,7 +109,8 @@ class ViewController: UIViewController {
             let end: CGPoint
             let length: CGFloat
             if let startZRot = startZRotation {
-                length = (dir % 2 == 0 ? 150 * CGFloat(yRotation) : 100 * CGFloat(zRotation - startZRot)) * (CGFloat(depth) / 6)
+                length = (dir % 2 == 0 ? 150 * CGFloat(yRotation) : 100 * CGFloat(xRotation)) * (CGFloat(depth) / CGFloat(baseDepth))
+//                length = (dir % 2 == 0 ? 150 * CGFloat(yRotation) : 100 * CGFloat(zRotation - startZRot)) * (CGFloat(depth) / 6)
             } else {
                 length = (dir % 2 == 0 ? 150 : 100) * (CGFloat(depth) / CGFloat(baseDepth))
             }
@@ -158,6 +159,8 @@ class ViewController: UIViewController {
             } else { // Recursive case
                 layer.addSublayer(addLine(from: center, depth: depth - 1, direction: direction, left: left))
                 layer.addSublayer(addLine(from: center, depth: depth - 1, direction: direction, left: !left))
+                
+                layer.addSublayer(addLine(from: end, depth: depth - 1, direction: direction, left: left))
                 layer.addSublayer(addLine(from: end, depth: depth - 1, direction: direction, left: !left))
             }
             

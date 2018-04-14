@@ -10,36 +10,51 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    var baseSublayer: CALayer?
     
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-       
+        addSublayers()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func viewDidLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        addSublayers()
     }
+    
+    private func addSublayers() {
 
-    @IBOutlet weak var generhizoButtonPressed: UIButton!
+        if let baseSublayer = baseSublayer {
+            baseSublayer.removeFromSuperlayer()
+        }
+        baseSublayer = sublayerConstructor(x: view.layer.frame.width / 2 - 50, y: view.layer.frame.height / 2 - 50)
+        
+        for x in -5...5 {
+            for y in -5...5 {
+                baseSublayer!.addSublayer(sublayerConstructor(x: CGFloat(x * 150), y: CGFloat(y * 150)))
+            }
+        }
+        view.layer.addSublayer(baseSublayer!)
+    }
+    
     
     @IBAction func generhizoButtonPressed(_ sender: UIButton) {
         
         
-        view.layer.backgroundColor = UIColor.green.cgColor
+        let animation = CABasicAnimation(keyPath: "transform.rotation.z")
+        animation.fromValue = 0
+        animation.toValue = CGFloat.pi
+        animation.duration = 2
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         
-        for x in -5...5 {
-            for y in -5...5 {
-                view.layer.addSublayer(sublayerConstructor(x: CGFloat(x * 150), y: CGFloat(y * 150)))
-            }
-        }
+        baseSublayer!.add(animation, forKey: "rotate")
     }
     
     private func sublayerConstructor(x: CGFloat, y: CGFloat) -> CALayer {
         let sublayer = CALayer()
-        sublayer.backgroundColor = UIColor.red.cgColor
-        sublayer.frame = CGRect(x: view.layer.frame.width / 2 - 50 + x, y: view.layer.frame.height / 2 - 50 + y, width: 100, height: 100)
+        sublayer.backgroundColor = UIColor.black.cgColor
+        sublayer.frame = CGRect(x: x, y: y, width: 100, height: 100)
         return sublayer
     }
 

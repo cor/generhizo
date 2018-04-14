@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var baseSublayer: CALayer?
+    var baseLayer: CALayer?
     
  
     override func viewDidLoad() {
@@ -25,34 +25,34 @@ class ViewController: UIViewController {
     
     private func addSublayers() {
 
-        if let baseSublayer = baseSublayer {
+        // Init baselayer
+        if let baseSublayer = baseLayer {
             baseSublayer.removeFromSuperlayer()
         }
-        
-        baseSublayer = sublayerConstructor(x: view.layer.frame.width / 2 - 5, y: view.layer.frame.height / 2 - 5)
+        baseLayer = sublayerConstructor(x: view.layer.frame.width / 2 - 5, y: view.layer.frame.height / 2 - 5)
 
         
-        let (lineLayer, lineCenter) = lineLayerConstructor(start: CGPoint(x: 5, y: 5), end: CGPoint(x: 100, y: 100), width: 2)
-        let (lineLayer2, lineCenter2) = lineLayerConstructor(start: lineCenter, end: CGPoint(x: lineCenter.x - 100, y: lineCenter.y + 100), width: 2)
-        let (lineLayer3, lineCenter3) = lineLayerConstructor(start: lineCenter2, end: CGPoint(x: lineCenter2.x + 100, y: lineCenter2.y + 100), width: 2)
-        
-        baseSublayer?.addSublayer(lineLayer)
-        lineLayer.addSublayer(lineLayer2)
-        lineLayer2.addSublayer(lineLayer3)
-        
-        
-        
-        baseSublayer?.addSublayer(lineLayerConstructor(start: CGPoint(x: 5, y: 5), end: CGPoint(x: -100, y: -100), width: 2).layer)
+        // Add tree structure
+        func addLine(from: CGPoint, depth: Int) -> CALayer {
 
+            // base layer
+            let (layer, center) = lineLayerConstructor(start: from,
+                                                       end: CGPoint(x: from.x + 100 * (depth % 2 == 0 ? 1 : -1), y: from.y + 100),
+                                                       width: 2)
+            
+            // Recursively add sublayers
+            if (depth <= 0) { // Base case
+                return layer
+            } else { // Recursive case
+                layer.addSublayer(addLine(from: center, depth: depth - 1))
+            }
+            
+            return layer
+        }
         
-//        let squareCount = 25
+        baseLayer?.addSublayer(addLine(from: CGPoint(x: 5, y: 5), depth: 6))
         
-//        for x in -squareCount...squareCount {
-//            for y in -squareCount...squareCount {
-//                baseSublayer!.addSublayer(sublayerConstructor(x: CGFloat(x * 15), y: CGFloat(y * 15)))
-//            }
-//        }
-        view.layer.addSublayer(baseSublayer!)
+        view.layer.addSublayer(baseLayer!)
     }
     
     
@@ -65,7 +65,7 @@ class ViewController: UIViewController {
         animation.duration = 1
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         
-        baseSublayer!.add(animation, forKey: "rotate")
+        baseLayer!.add(animation, forKey: "rotate")
     }
     
     private func sublayerConstructor(x: CGFloat, y: CGFloat) -> CALayer {

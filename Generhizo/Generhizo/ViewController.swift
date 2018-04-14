@@ -33,40 +33,79 @@ class ViewController: UIViewController {
 
         
         // Add tree structure
-        func addLine(from: CGPoint, depth: Int) -> CALayer {
-
+        func addLine(from: CGPoint, depth: Int, direction: Int, left: Bool) -> CALayer {
+            
+            
+            // Rollover direction
+            var dir = depth == 6 ? direction : direction + (left ? 1 : -1)
+            
+            if dir == -1 {
+                dir = 7
+            } else if dir == 8 {
+                dir = 0
+            }
+            
+            
+            let end: CGPoint
+            let length: CGFloat = (dir % 2 == 0 ? 100 * sqrt(2) : 100) * (CGFloat(depth) / 6)
             // base layer
-            let (layer, center) = lineLayerConstructor(start: from,
-                                                       end: CGPoint(x: from.x + 100 * (depth % 2 == 0 ? 1 : -1), y: from.y + 100),
-                                                       width: 2)
+            switch dir {
+            case 0: end = CGPoint(x: from.x,          y: from.y - length)
+            case 1: end = CGPoint(x: from.x + length, y: from.y - length)
+            case 2: end = CGPoint(x: from.x + length, y: from.y)
+            case 3: end = CGPoint(x: from.x + length, y: from.y + length)
+            case 4: end = CGPoint(x: from.x,          y: from.y + length)
+            case 5: end = CGPoint(x: from.x - length, y: from.y + length)
+            case 6: end = CGPoint(x: from.x - length, y: from.y)
+            case 7: end = CGPoint(x: from.x - length, y: from.y - length)
+            default: end = CGPoint(x: from.x,         y: from.y - length) // same as 0
+            }
+            
+            let (layer, center) = lineLayerConstructor(start: from, end: end, width: 2)
+            
+            
+            // MARK: - Animation
+            let growDuration: Double = 3
+            let timeDelay = (Double(6 - depth) * growDuration)
+            
+            let lineAnimation = CABasicAnimation(keyPath: "strokeEnd")
+            lineAnimation.duration = growDuration
+            lineAnimation.fromValue = 0
+            lineAnimation.toValue = 1
+            lineAnimation.beginTime = CACurrentMediaTime() + timeDelay
+            lineAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+            
+            
+            // HACK
+            lineAnimation.fillMode = kCAFillModeForwards
+            lineAnimation.isRemovedOnCompletion = false
+            
+            layer.strokeEnd = 0
+            
+            
+            layer.add(lineAnimation, forKey: "strokeEnd")
+
             
             // Recursively add sublayers
             if (depth <= 0) { // Base case
                 return layer
             } else { // Recursive case
-                layer.addSublayer(addLine(from: center, depth: depth - 1))
+                layer.addSublayer(addLine(from: center, depth: depth - 1, direction: direction, left: left))
+                layer.addSublayer(addLine(from: center, depth: depth - 1, direction: direction, left: !left))
+                layer.addSublayer(addLine(from: end, depth: depth - 1, direction: direction, left: !left))
             }
             
             return layer
         }
         
-        baseLayer?.addSublayer(addLine(from: CGPoint(x: 5, y: 5), depth: 6))
         
+        for direction in 0...7 {
+            baseLayer?.addSublayer(addLine(from: CGPoint(x: 5, y: 5), depth: 6, direction: direction, left: true))
+        }
         view.layer.addSublayer(baseLayer!)
     }
     
     
-    @IBAction func generhizoButtonPressed(_ sender: UIButton) {
-        
-        
-        let animation = CABasicAnimation(keyPath: "transform.rotation.z")
-        animation.fromValue = 0
-        animation.toValue = CGFloat.pi * 2
-        animation.duration = 1
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        
-        baseLayer!.add(animation, forKey: "rotate")
-    }
     
     private func sublayerConstructor(x: CGFloat, y: CGFloat) -> CALayer {
         let sublayer = CALayer()
@@ -75,7 +114,7 @@ class ViewController: UIViewController {
         return sublayer
     }
     
-    private func lineLayerConstructor(start: CGPoint, end: CGPoint, width: CGFloat) -> (layer: CALayer, center: CGPoint) {
+    private func lineLayerConstructor(start: CGPoint, end: CGPoint, width: CGFloat) -> (layer: CAShapeLayer, center: CGPoint) {
         let lineLayer = CAShapeLayer()
         let linePath = UIBezierPath()
         linePath.move(to: start)

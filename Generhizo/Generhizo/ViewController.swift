@@ -135,7 +135,7 @@ class ViewController: UIViewController {
                 
                 let zValue = fabs(CGFloat(zRotation))
                 self.zLabel.text = "\(Double(round(1000*zValue)/1000))"
-                length = (dir % 2 == 0 ? 100 * CGFloat(yRotation) : -50 * zValue) * max((CGFloat(depth) /  (CGFloat(baseDepth))), CGFloat(shrinkSlider!.value))
+                length = (dir % 2 == 0 ? 100 * CGFloat(yRotation) : -75 * zValue) * max((CGFloat(depth) /  (CGFloat(baseDepth))), CGFloat(shrinkSlider!.value))
             } else {
                 length = (dir % 2 == 0 ? 150 : 100) * (CGFloat(depth) / CGFloat(baseDepth))
             }

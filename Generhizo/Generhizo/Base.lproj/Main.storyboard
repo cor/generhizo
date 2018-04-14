@@ -24,17 +24,46 @@
                                     <action selector="motionSwitchUpdated:" destination="BYZ-38-t0r" eventType="valueChanged" id="OWI-tE-dpj"/>
                                 </connections>
                             </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="6" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZOg-Wa-riD">
+                                <rect key="frame" x="97" y="621" width="11" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="i2g-qz-o6m">
+                                <rect key="frame" x="140" y="617" width="94" height="29"/>
+                                <connections>
+                                    <action selector="depthStepperUpdated:" destination="BYZ-38-t0r" eventType="valueChanged" id="j6z-1I-6Bn"/>
+                                </connections>
+                            </stepper>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5AV-2P-b5z">
+                                <rect key="frame" x="310" y="616" width="51" height="31"/>
+                                <connections>
+                                    <action selector="twigCountSwitchUpdated:" destination="BYZ-38-t0r" eventType="valueChanged" id="T0M-Tf-EnX"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="i2g-qz-o6m" firstAttribute="centerY" secondItem="2C9-M4-HpP" secondAttribute="centerY" id="D7b-tV-5Cl"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="5AV-2P-b5z" secondAttribute="bottom" constant="20" id="GPg-0W-gZn"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="2C9-M4-HpP" secondAttribute="bottom" constant="20" id="UBi-yA-rKI"/>
+                            <constraint firstItem="i2g-qz-o6m" firstAttribute="leading" secondItem="ZOg-Wa-riD" secondAttribute="trailing" constant="32" id="UZH-vZ-3ys"/>
                             <constraint firstItem="2C9-M4-HpP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="gVm-Si-7ro"/>
+                            <constraint firstItem="ZOg-Wa-riD" firstAttribute="leading" secondItem="2C9-M4-HpP" secondAttribute="trailing" constant="32" id="jAq-hf-I7W"/>
+                            <constraint firstItem="ZOg-Wa-riD" firstAttribute="centerY" secondItem="2C9-M4-HpP" secondAttribute="centerY" id="o3Y-Gi-Rhc"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="5AV-2P-b5z" secondAttribute="trailing" constant="16" id="rS4-xY-Nmb"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="depthLabel" destination="ZOg-Wa-riD" id="u6o-6i-MTs"/>
+                        <outlet property="stepperValue" destination="i2g-qz-o6m" id="vWW-06-uSf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="133.5832083958021"/>
         </scene>
     </scenes>
 </document>

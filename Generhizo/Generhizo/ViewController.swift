@@ -12,10 +12,19 @@ import CoreMotion
 class ViewController: UIViewController {
 
     var baseLayer: CALayer?
+    
+    var baseDepth = 3
+    
+    // mode
     var growMode = false
     var motionMode = true
+    var eightTwigMode = true
     
-    //motion
+    @IBOutlet weak var depthLabel: UILabel!
+    @IBOutlet weak var stepperValue: UIStepper!
+    
+    
+    // motion
     let motionManager = CMMotionManager()
     var timer: Timer?
     
@@ -29,14 +38,19 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         addSublayers()
         startDeviceMotion()
+        
+        depthLabel.text = "\(baseDepth)"
+        
+        stepperValue.minimumValue = 1
+        stepperValue.maximumValue = 6
     }
     
     private func startDeviceMotion() {
-        motionManager.deviceMotionUpdateInterval = 1.0 / 10
+        motionManager.deviceMotionUpdateInterval = 1.0 / 60
         motionManager.showsDeviceMovementDisplay = true
         motionManager.startDeviceMotionUpdates(using: .xMagneticNorthZVertical)
         
-        self.timer = Timer(fire: Date(), interval: (1.0/30.0), repeats: true) { (timer) in
+        self.timer = Timer(fire: Date(), interval: (1.0/60.0), repeats: true) { (timer) in
             if let data = self.motionManager.deviceMotion {
                
                 if (self.motionMode) {
@@ -83,7 +97,7 @@ class ViewController: UIViewController {
             
             
             // Rollover direction
-            var dir = depth == 6 ? direction : direction + (left ? 1 : -1)
+            var dir = depth == baseDepth ? direction : direction + (left ? 1 : -1)
             
             if dir == -1 {
                 dir = 7
@@ -97,7 +111,7 @@ class ViewController: UIViewController {
             if let startZRot = startZRotation {
                 length = (dir % 2 == 0 ? 150 * CGFloat(yRotation) : 100 * CGFloat(zRotation - startZRot)) * (CGFloat(depth) / 6)
             } else {
-                length = (dir % 2 == 0 ? 150 : 100) * (CGFloat(depth) / 6)
+                length = (dir % 2 == 0 ? 150 : 100) * (CGFloat(depth) / CGFloat(baseDepth))
             }
             // base layer
             switch dir {
@@ -118,7 +132,7 @@ class ViewController: UIViewController {
             if growMode {
                 // MARK: - Animation
                 let growDuration: Double = 3
-                let timeDelay = (Double(6 - depth) * growDuration)
+                let timeDelay = (Double(baseDepth - depth) * growDuration)
                 
                 let lineAnimation = CABasicAnimation(keyPath: "strokeEnd")
                 lineAnimation.duration = growDuration
@@ -133,7 +147,6 @@ class ViewController: UIViewController {
                 lineAnimation.isRemovedOnCompletion = false
                 
                 layer.strokeEnd = 0
-                
                 
                 layer.add(lineAnimation, forKey: "strokeEnd")
             }
@@ -153,9 +166,9 @@ class ViewController: UIViewController {
         
         
         for direction in 0...7 {
-//            if direction % 2 == 0 {
-                baseLayer?.addSublayer(addLine(from: CGPoint(x: 5, y: 5), depth: 6, direction: direction, left: true))
-//            }
+            if direction % 2 == 0 || eightTwigMode {
+                baseLayer?.addSublayer(addLine(from: CGPoint(x: 5, y: 5), depth: baseDepth, direction: direction, left: true))
+            }
             
         }
         view.layer.addSublayer(baseLayer!)
@@ -195,6 +208,17 @@ class ViewController: UIViewController {
             startZRotation = nil
         }
         addSublayers()
+    }
+    
+    @IBAction func twigCountSwitchUpdated(_ sender: UISwitch) {
+        eightTwigMode = sender.isOn
+        addSublayers()
+    }
+    
+    @IBAction func depthStepperUpdated(_ sender: UIStepper) {
+        let stepValue = Int(stepperValue.value)
+        depthLabel.text = "\(Int(stepperValue.value))"
+        baseDepth = stepValue
     }
     
 }

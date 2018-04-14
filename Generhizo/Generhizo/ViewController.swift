@@ -7,15 +7,61 @@
 //
 
 import UIKit
+import CoreMotion
 
 class ViewController: UIViewController {
 
     var baseLayer: CALayer?
+    var growMode = false
+    var motionMode = true
     
- 
+    //motion
+    let motionManager = CMMotionManager()
+    var timer: Timer?
+    
+    var xRotation = 1.0
+    var yRotation = 1.0
+    var zRotation = 1.0
+    
+    var startZRotation: Double? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         addSublayers()
+        startDeviceMotion()
+    }
+    
+    private func startDeviceMotion() {
+        motionManager.deviceMotionUpdateInterval = 1.0 / 10
+        motionManager.showsDeviceMovementDisplay = true
+        motionManager.startDeviceMotionUpdates(using: .xMagneticNorthZVertical)
+        
+        self.timer = Timer(fire: Date(), interval: (1.0/30.0), repeats: true) { (timer) in
+            if let data = self.motionManager.deviceMotion {
+               
+                if (self.motionMode) {
+                    // Get the attitude relative to the magnetic north reference frame.
+                    let x = data.attitude.pitch
+                    let y = data.attitude.roll
+                    let z = data.attitude.yaw
+                    
+                    print("x: \(x), y: \(y), z: \(z)")
+                    
+                    if self.startZRotation == nil {
+                        self.startZRotation = z
+                    }
+                    
+                    self.xRotation = x
+                    self.yRotation = y
+                    self.zRotation = z
+              
+                    self.addSublayers()
+                }
+                
+            }
+        }
+        
+        RunLoop.current.add(self.timer!, forMode: .defaultRunLoopMode)
     }
     
     override func viewDidLayoutSubviews() {
@@ -47,7 +93,12 @@ class ViewController: UIViewController {
             
             
             let end: CGPoint
-            let length: CGFloat = (dir % 2 == 0 ? 100 * sqrt(2) : 100) * (CGFloat(depth) / 6)
+            let length: CGFloat
+            if let startZRot = startZRotation {
+                length = (dir % 2 == 0 ? 150 * CGFloat(yRotation) : 100 * CGFloat(zRotation - startZRot)) * (CGFloat(depth) / 6)
+            } else {
+                length = (dir % 2 == 0 ? 150 : 100) * (CGFloat(depth) / 6)
+            }
             // base layer
             switch dir {
             case 0: end = CGPoint(x: from.x,          y: from.y - length)
@@ -64,27 +115,29 @@ class ViewController: UIViewController {
             let (layer, center) = lineLayerConstructor(start: from, end: end, width: 2)
             
             
-            // MARK: - Animation
-            let growDuration: Double = 3
-            let timeDelay = (Double(6 - depth) * growDuration)
+            if growMode {
+                // MARK: - Animation
+                let growDuration: Double = 3
+                let timeDelay = (Double(6 - depth) * growDuration)
+                
+                let lineAnimation = CABasicAnimation(keyPath: "strokeEnd")
+                lineAnimation.duration = growDuration
+                lineAnimation.fromValue = 0
+                lineAnimation.toValue = 1
+                lineAnimation.beginTime = CACurrentMediaTime() + timeDelay
+                lineAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+                
+                
+                // HACK
+                lineAnimation.fillMode = kCAFillModeForwards
+                lineAnimation.isRemovedOnCompletion = false
+                
+                layer.strokeEnd = 0
+                
+                
+                layer.add(lineAnimation, forKey: "strokeEnd")
+            }
             
-            let lineAnimation = CABasicAnimation(keyPath: "strokeEnd")
-            lineAnimation.duration = growDuration
-            lineAnimation.fromValue = 0
-            lineAnimation.toValue = 1
-            lineAnimation.beginTime = CACurrentMediaTime() + timeDelay
-            lineAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-            
-            
-            // HACK
-            lineAnimation.fillMode = kCAFillModeForwards
-            lineAnimation.isRemovedOnCompletion = false
-            
-            layer.strokeEnd = 0
-            
-            
-            layer.add(lineAnimation, forKey: "strokeEnd")
-
             
             // Recursively add sublayers
             if (depth <= 0) { // Base case
@@ -100,7 +153,10 @@ class ViewController: UIViewController {
         
         
         for direction in 0...7 {
-            baseLayer?.addSublayer(addLine(from: CGPoint(x: 5, y: 5), depth: 6, direction: direction, left: true))
+//            if direction % 2 == 0 {
+                baseLayer?.addSublayer(addLine(from: CGPoint(x: 5, y: 5), depth: 6, direction: direction, left: true))
+//            }
+            
         }
         view.layer.addSublayer(baseLayer!)
     }
@@ -128,5 +184,18 @@ class ViewController: UIViewController {
         return (layer: lineLayer, center: center)
     }
 
+    @IBAction func motionSwitchUpdated(_ sender: UISwitch) {
+        motionMode = sender.isOn
+        growMode = !sender.isOn
+        
+        if !motionMode {
+            xRotation = 1.0
+            yRotation = 1.0
+            zRotation = 1.0
+            startZRotation = nil
+        }
+        addSublayers()
+    }
+    
 }
 

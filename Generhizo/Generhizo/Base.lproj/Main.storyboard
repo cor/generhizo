@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_7" orientation="portrait">
+    <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -15,55 +15,124 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Generhizo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2C9-M4-HpP">
-                                <rect key="frame" x="16" y="616" width="51" height="31"/>
-                                <connections>
-                                    <action selector="motionSwitchUpdated:" destination="BYZ-38-t0r" eventType="valueChanged" id="OWI-tE-dpj"/>
-                                </connections>
-                            </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="6" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZOg-Wa-riD">
-                                <rect key="frame" x="97" y="621" width="11" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="zOutlet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJS-ku-RVh">
+                                <rect key="frame" x="242" y="979" width="56" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="i2g-qz-o6m">
-                                <rect key="frame" x="140" y="617" width="94" height="29"/>
-                                <connections>
-                                    <action selector="depthStepperUpdated:" destination="BYZ-38-t0r" eventType="valueChanged" id="j6z-1I-6Bn"/>
-                                </connections>
-                            </stepper>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5AV-2P-b5z">
-                                <rect key="frame" x="310" y="616" width="51" height="31"/>
-                                <connections>
-                                    <action selector="twigCountSwitchUpdated:" destination="BYZ-38-t0r" eventType="valueChanged" id="T0M-Tf-EnX"/>
-                                </connections>
-                            </switch>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qFH-H9-xwM" userLabel="ControlsView">
+                                <rect key="frame" x="0.0" y="977" width="768" height="47"/>
+                                <subviews>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2C9-M4-HpP" userLabel="Motion Switch">
+                                        <rect key="frame" x="8" y="8" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="motionSwitchUpdated:" destination="BYZ-38-t0r" eventType="valueChanged" id="OWI-tE-dpj"/>
+                                        </connections>
+                                    </switch>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="6" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZOg-Wa-riD">
+                                        <rect key="frame" x="65" y="13" width="11" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="i2g-qz-o6m" userLabel="Depth Stepper">
+                                        <rect key="frame" x="84" y="9" width="94" height="29"/>
+                                        <connections>
+                                            <action selector="depthStepperUpdated:" destination="BYZ-38-t0r" eventType="valueChanged" id="j6z-1I-6Bn"/>
+                                        </connections>
+                                    </stepper>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5AV-2P-b5z" userLabel="Eight Twig Switch">
+                                        <rect key="frame" x="711" y="8" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="twigCountSwitchUpdated:" destination="BYZ-38-t0r" eventType="valueChanged" id="T0M-Tf-EnX"/>
+                                        </connections>
+                                    </switch>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OtX-RZ-rsF" userLabel="dimension 4">
+                                        <rect key="frame" x="654" y="8" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="naturalSwitchUpdated:" destination="BYZ-38-t0r" eventType="valueChanged" id="1Lc-23-n8q"/>
+                                        </connections>
+                                    </switch>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fec-9v-GKD" userLabel="dimension 2">
+                                        <rect key="frame" x="540" y="8" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="endLeftSwitchUpdated:" destination="BYZ-38-t0r" eventType="valueChanged" id="l3D-0E-JIR"/>
+                                        </connections>
+                                    </switch>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S59-oH-ahS" userLabel="dimension 1">
+                                        <rect key="frame" x="483" y="8" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="endRightSwitchUpdated:" destination="BYZ-38-t0r" eventType="valueChanged" id="X3r-E0-CFV"/>
+                                        </connections>
+                                    </switch>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HMo-4X-XyQ" userLabel="dimension 3">
+                                        <rect key="frame" x="597" y="8" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="centerLeftSwitchUpdated:" destination="BYZ-38-t0r" eventType="valueChanged" id="3df-33-e48"/>
+                                        </connections>
+                                    </switch>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="5Bn-gk-lOo">
+                                        <rect key="frame" x="184" y="9" width="293" height="31"/>
+                                    </slider>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="i2g-qz-o6m" firstAttribute="leading" secondItem="ZOg-Wa-riD" secondAttribute="trailing" constant="8" id="8iW-ci-g8q"/>
+                                    <constraint firstItem="ZOg-Wa-riD" firstAttribute="leading" secondItem="2C9-M4-HpP" secondAttribute="trailing" constant="8" id="D1N-eP-50G"/>
+                                    <constraint firstItem="5AV-2P-b5z" firstAttribute="leading" secondItem="OtX-RZ-rsF" secondAttribute="trailing" constant="8" id="GDP-m8-kyH"/>
+                                    <constraint firstAttribute="bottom" secondItem="2C9-M4-HpP" secondAttribute="bottom" constant="8" id="HGk-Ks-jXV"/>
+                                    <constraint firstAttribute="height" constant="47" id="Ilt-6q-bNH"/>
+                                    <constraint firstItem="S59-oH-ahS" firstAttribute="leading" secondItem="5Bn-gk-lOo" secondAttribute="trailing" constant="8" id="Lft-st-6p2"/>
+                                    <constraint firstAttribute="bottom" secondItem="HMo-4X-XyQ" secondAttribute="bottom" constant="8" id="OZN-Gl-MaH"/>
+                                    <constraint firstItem="5Bn-gk-lOo" firstAttribute="centerY" secondItem="S59-oH-ahS" secondAttribute="centerY" id="PUq-NM-uh2"/>
+                                    <constraint firstAttribute="trailing" secondItem="5AV-2P-b5z" secondAttribute="trailing" constant="8" id="U4v-Ah-N6X"/>
+                                    <constraint firstAttribute="bottom" secondItem="i2g-qz-o6m" secondAttribute="bottom" constant="9" id="Zff-uT-oAM"/>
+                                    <constraint firstItem="HMo-4X-XyQ" firstAttribute="leading" secondItem="fec-9v-GKD" secondAttribute="trailing" constant="8" id="fbc-cY-CPd"/>
+                                    <constraint firstAttribute="bottom" secondItem="ZOg-Wa-riD" secondAttribute="bottom" constant="13" id="feb-41-FbT"/>
+                                    <constraint firstItem="5Bn-gk-lOo" firstAttribute="leading" secondItem="i2g-qz-o6m" secondAttribute="trailing" constant="8" id="hvP-bQ-rty"/>
+                                    <constraint firstAttribute="bottom" secondItem="OtX-RZ-rsF" secondAttribute="bottom" constant="8" id="n66-jT-hkJ"/>
+                                    <constraint firstAttribute="bottom" secondItem="5AV-2P-b5z" secondAttribute="bottom" constant="8" id="o3C-GF-be5"/>
+                                    <constraint firstAttribute="bottom" secondItem="S59-oH-ahS" secondAttribute="bottom" constant="8" id="o9r-l7-QVl"/>
+                                    <constraint firstItem="2C9-M4-HpP" firstAttribute="leading" secondItem="qFH-H9-xwM" secondAttribute="leading" constant="8" id="r0S-9j-6Ks"/>
+                                    <constraint firstItem="OtX-RZ-rsF" firstAttribute="leading" secondItem="HMo-4X-XyQ" secondAttribute="trailing" constant="8" id="rAX-cH-y0d"/>
+                                    <constraint firstItem="fec-9v-GKD" firstAttribute="leading" secondItem="S59-oH-ahS" secondAttribute="trailing" constant="8" id="tRC-zb-veX"/>
+                                    <constraint firstAttribute="bottom" secondItem="fec-9v-GKD" secondAttribute="bottom" constant="8" id="tof-RV-M3Q"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="i2g-qz-o6m" firstAttribute="centerY" secondItem="2C9-M4-HpP" secondAttribute="centerY" id="D7b-tV-5Cl"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="5AV-2P-b5z" secondAttribute="bottom" constant="20" id="GPg-0W-gZn"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="2C9-M4-HpP" secondAttribute="bottom" constant="20" id="UBi-yA-rKI"/>
-                            <constraint firstItem="i2g-qz-o6m" firstAttribute="leading" secondItem="ZOg-Wa-riD" secondAttribute="trailing" constant="32" id="UZH-vZ-3ys"/>
-                            <constraint firstItem="2C9-M4-HpP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="gVm-Si-7ro"/>
-                            <constraint firstItem="ZOg-Wa-riD" firstAttribute="leading" secondItem="2C9-M4-HpP" secondAttribute="trailing" constant="32" id="jAq-hf-I7W"/>
-                            <constraint firstItem="ZOg-Wa-riD" firstAttribute="centerY" secondItem="2C9-M4-HpP" secondAttribute="centerY" id="o3Y-Gi-Rhc"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="5AV-2P-b5z" secondAttribute="trailing" constant="16" id="rS4-xY-Nmb"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="qFH-H9-xwM" secondAttribute="bottom" id="DZG-ZA-elT"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qFH-H9-xwM" secondAttribute="trailing" id="dQ0-BO-Pbi"/>
+                            <constraint firstItem="qFH-H9-xwM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="sVF-af-ym4"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="flN-X2-j2s" appends="YES" id="efy-aT-FS5"/>
+                        </connections>
                     </view>
                     <connections>
+                        <outlet property="controlsView" destination="qFH-H9-xwM" id="CXK-QC-gGl"/>
                         <outlet property="depthLabel" destination="ZOg-Wa-riD" id="u6o-6i-MTs"/>
+                        <outlet property="shrinkSlider" destination="5Bn-gk-lOo" id="ze1-Sw-Gar"/>
                         <outlet property="stepperValue" destination="i2g-qz-o6m" id="vWW-06-uSf"/>
+                        <outlet property="zLabel" destination="EJS-ku-RVh" id="wgh-CV-Z6o"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer numberOfTapsRequired="2" id="flN-X2-j2s">
+                    <connections>
+                        <action selector="tapRecognized:" destination="BYZ-38-t0r" id="I5k-C1-dEu"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="136.80000000000001" y="133.5832083958021"/>
+            <point key="canvasLocation" x="136.71875" y="133.0078125"/>
         </scene>
     </scenes>
 </document>

@@ -13,15 +13,22 @@ class ViewController: UIViewController {
 
     var baseLayer: CALayer?
     
-    var baseDepth = 5
+    var baseDepth = 3
     
     // mode
     var growMode = false
     var motionMode = true
     var eightTwigMode = true
+    var naturalMode = true
+    var centerLeftMode = true
+    var endLeftMode = true
+    var endRightMode = true
     
+    @IBOutlet weak var controlsView: UIView!
     @IBOutlet weak var depthLabel: UILabel!
     @IBOutlet weak var stepperValue: UIStepper!
+    @IBOutlet weak var zLabel: UILabel!
+    @IBOutlet weak var shrinkSlider: UISlider!
     
     
     // motion
@@ -32,7 +39,15 @@ class ViewController: UIViewController {
     var yRotation = 1.0
     var zRotation = 1.0
     
-    var startZRotation: Double? = nil
+    var startZRotation: Double? = nil {
+        didSet {
+            print(startZRotation)
+        }
+    }
+    @IBAction func tapRecognized(_ sender: UITapGestureRecognizer) {
+        // toggle the controlsview on a double tap
+        controlsView.isHidden = !controlsView.isHidden
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +57,8 @@ class ViewController: UIViewController {
         depthLabel.text = "\(baseDepth)"
         
         stepperValue.minimumValue = 1
-        stepperValue.maximumValue = 6
+        stepperValue.maximumValue = 5
+        stepperValue.value = Double(baseDepth)
     }
     
     private func startDeviceMotion() {
@@ -59,10 +75,10 @@ class ViewController: UIViewController {
                     let y = data.attitude.roll
                     let z = data.attitude.yaw
                     
-                    print("x: \(x), y: \(y), z: \(z)")
                     
                     if self.startZRotation == nil {
                         self.startZRotation = z
+                        print("setting start rotation")
                     }
                     
                     self.xRotation = x
@@ -106,11 +122,17 @@ class ViewController: UIViewController {
             }
             
             
+            
             let end: CGPoint
             let length: CGFloat
             if let startZRot = startZRotation {
-                length = (dir % 2 == 0 ? 150 * CGFloat(yRotation) : 100 * CGFloat(xRotation)) * (CGFloat(depth) / CGFloat(baseDepth))
-//                length = (dir % 2 == 0 ? 150 * CGFloat(yRotation) : 100 * CGFloat(zRotation - startZRot)) * (CGFloat(depth) / 6)
+                
+                //print("zStart: \(startZRot), zCalc: \(fabs(CGFloat(zRotation) - fabs(CGFloat(startZRot))))")
+//                length = (dir % 2 == 0 ? 100 * CGFloat(yRotation) : 100 * CGFloat(xRotation)) * (CGFloat(depth) / CGFloat(baseDepth))
+                
+                let zValue = fabs(CGFloat(zRotation))
+                self.zLabel.text = "\(Double(round(1000*zValue)/1000))"
+                length = (dir % 2 == 0 ? 100 * CGFloat(yRotation) : -100 * zValue) * max((CGFloat(depth) /  (CGFloat(baseDepth))), CGFloat(shrinkSlider!.value))
             } else {
                 length = (dir % 2 == 0 ? 150 : 100) * (CGFloat(depth) / CGFloat(baseDepth))
             }
@@ -157,11 +179,22 @@ class ViewController: UIViewController {
             if (depth <= 0) { // Base case
                 return layer
             } else { // Recursive case
-                layer.addSublayer(addLine(from: center, depth: depth - 1, direction: direction, left: left))
-                layer.addSublayer(addLine(from: center, depth: depth - 1, direction: direction, left: !left))
+                if centerLeftMode {
+                  layer.addSublayer(addLine(from: center, depth: depth - 1, direction: direction, left: left))
+                }
                 
-                layer.addSublayer(addLine(from: end, depth: depth - 1, direction: direction, left: left))
-                layer.addSublayer(addLine(from: end, depth: depth - 1, direction: direction, left: !left))
+                if naturalMode {
+                    layer.addSublayer(addLine(from: center, depth: depth - 1, direction: direction, left: !left))
+                }
+                
+                if endLeftMode {
+                    layer.addSublayer(addLine(from: end, depth: depth - 1, direction: direction, left: left))
+                }
+                
+                if endRightMode {
+                    layer.addSublayer(addLine(from: end, depth: depth - 1, direction: direction, left: !left))
+                }
+                
             }
             
             return layer
@@ -202,7 +235,7 @@ class ViewController: UIViewController {
 
     @IBAction func motionSwitchUpdated(_ sender: UISwitch) {
         motionMode = sender.isOn
-        growMode = !sender.isOn
+        growMode = !motionMode
         
         if !motionMode {
             xRotation = 1.0
@@ -210,6 +243,25 @@ class ViewController: UIViewController {
             zRotation = 1.0
             startZRotation = nil
         }
+        addSublayers()
+    }
+    @IBAction func naturalSwitchUpdated(_ sender: UISwitch) {
+        naturalMode = sender.isOn
+        addSublayers()
+    }
+    
+    @IBAction func centerLeftSwitchUpdated(_ sender: UISwitch) {
+        centerLeftMode = sender.isOn
+        addSublayers()
+    }
+    
+    @IBAction func endLeftSwitchUpdated(_ sender: UISwitch) {
+        endLeftMode = sender.isOn
+        addSublayers()
+    }
+    
+    @IBAction func endRightSwitchUpdated(_ sender: UISwitch) {
+        endRightMode = sender.isOn
         addSublayers()
     }
     
